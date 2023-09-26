@@ -1,5 +1,6 @@
 from datetime import datetime
 
+from django.contrib.auth.models import User
 from django.db import models
 
 
@@ -10,6 +11,7 @@ class Note(models.Model):
     body = models.TextField(max_length=1000)
     created = models.DateTimeField(auto_now_add=True)
     is_active = models.BooleanField(default=True)
+    username = models.ForeignKey(User, on_delete=models.CASCADE)
 
     def __str__(self):
-        return self.title
+        return f'{self.username} - {self.title}'

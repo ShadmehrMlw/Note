@@ -3,6 +3,8 @@ from rest_framework.views import APIView
 from rest_framework.response import Response
 from .serializers import NoteSerializer
 from api.models import Note
+from permissions import IsOwnerOrReadOnly
+from rest_framework.permissions import IsAuthenticated
 
 
 # Create your views here.
@@ -32,6 +34,7 @@ class UpdateNoteView(APIView):
         return Response(srz_data.errors, status=status.HTTP_400_BAD_REQUEST)
 
 class DeleteNoteView(APIView):
+    permission_classes = [IsOwnerOrReadOnly]
     def delete(self, request, pk):
         note = Note.objects.get(pk=pk)
         note.delete()
